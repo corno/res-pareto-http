@@ -14,15 +14,15 @@
   "name": "res-pareto-http",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/corno/rsi-pareto-http.git"
+    "url": "git+https://github.com/corno/res-pareto-http.git"
   },
   "dependencies": {
-    "api-pareto-http": "^0.1.0",
-    "pareto-core-lib": "^0.4.0"
+    "api-pareto-http": "^0.1.1",
+    "pareto-core-internals": "^0.2.0"
   },
   "version": "0.3.0",
   "devDependencies": {
-    "@types/node": "^18.7.13"
+    "@types/node": "^18.7.14"
   },
-  "content-fingerprint": "e547558f0aa75a8dad6e0983c676fcb56bdfef48"
+  "content-fingerprint": "2cfe4f605b1865923debf64672595cd9c4083a0a"
 }

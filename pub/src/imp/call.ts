@@ -1,5 +1,5 @@
 import * as http from "http"
-import * as pl from "pareto-core-lib"
+import * as pl from "pareto-core-internals"
 import * as api from "api-pareto-http"
 import * as pth from "path"
 
