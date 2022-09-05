@@ -1,13 +1,14 @@
 
 import * as api from "api-pareto-http"
-import { call } from "./call"
+import { call } from "../private/call"
+import { panic } from "../private/panic"
 
-export const createHTTPResource: api.CreateHTTPResource = ($, $i) => {
+export const createHTTPResource: api.XCreateHTTPResource = ($, $i) => {
     const settings = $
     const onError = $i.onError
     return {
         get: ($, $i) => {
-            let consumer: null | api.StreamConsumer<string> = null
+            let consumer: null | api.IStreamConsumer<string> = null
             return call(
                 settings.hostName,
                 [settings.contextPath, $.id],
@@ -19,7 +20,7 @@ export const createHTTPResource: api.CreateHTTPResource = ($, $i) => {
                 },
                 ($) => {
                     if (consumer !== null) {
-                        throw new Error("ENCOUNTERED HTTP ERROR AFTER DATA WAS RECEIVED")
+                        panic("ENCOUNTERED HTTP ERROR AFTER DATA WAS RECEIVED")
                     }
                     onError($)
                     $i.onFailed()

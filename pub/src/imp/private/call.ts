@@ -1,11 +1,8 @@
 import * as http from "http"
 import * as pl from "pareto-core-internals"
+import * as pt from "pareto-core-types"
 import * as api from "api-pareto-http"
 import * as pth from "path"
-
-export type INonValueAsync = {
-    execute: (callback: () => void) => void;
-}
 
 // export function createHTTPErrorMessage($: api.HTTPError): string {
 //     switch ($[0]) {
@@ -19,11 +16,11 @@ export type INonValueAsync = {
 
 export function call(
     hostname: string,
-    path: api.Path,
+    path: api.TPath,
     onData: (data: string) => void,
-    onError: (e: api.HTTPError) => void,
+    onError: (e: api.THTTPError) => void,
     onEnd: () => void
-): INonValueAsync {
+): pt.AsyncNonValue {
     return {
         execute: (cb) => {
             const options = {

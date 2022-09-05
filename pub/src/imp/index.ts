@@ -1,2 +1,2 @@
 
-export * from "./createHTTPResource"
+export * from "./public/createHTTPResource"
