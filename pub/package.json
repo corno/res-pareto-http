@@ -20,7 +20,7 @@
     "api-pareto-http": "^0.2.0",
     "pareto-core-internals": "^0.2.0"
   },
-  "version": "0.6.0",
+  "version": "0.7.0",
   "devDependencies": {
     "@types/node": "^18.7.15"
   },
