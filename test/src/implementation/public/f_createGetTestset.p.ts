@@ -7,14 +7,13 @@ import * as test from "lib-pareto-test"
 
 import * as api from "../../interface"
 
-
 import * as pub from "../../../../pub/dist"
 
 export const f_createGetTestset: api.FCreateGetTestset = ($d) => {
 
     return () => {
         const builder = pm.createDictionaryBuilder<test.TTestElement>(
-            ["ignore", null],
+            ["ignore", {}],
             () => {
                 pl.panic("duplicate key")
             }
