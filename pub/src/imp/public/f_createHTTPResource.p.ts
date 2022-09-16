@@ -3,7 +3,7 @@ import * as api from "api-pareto-http"
 import { call } from "../private/call"
 import { panic } from "../private/panic"
 
-export const createHTTPResource: api.XCreateHTTPResource = ($, $i) => {
+export const f_createHTTPResource: api.XCreateHTTPResource = ($, $i) => {
     const settings = $
     const onError = $i.onError
     return {
