@@ -1,2 +1,2 @@
 
-export * from "./public/f_createHTTPResource.p"
+export * from "./public/createHTTPResource.p"
