@@ -21,7 +21,7 @@
     "pareto-core": "^0.0.4",
     "pareto-core-internals": "^0.9.0"
   },
-  "version": "0.9.0",
+  "version": "0.10.0",
   "devDependencies": {
     "@types/node": "^18.11.9"
   },
