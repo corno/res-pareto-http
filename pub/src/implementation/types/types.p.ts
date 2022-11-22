@@ -1,4 +1,4 @@
-import * as api from "api-pareto-http"
+import * as api from "../../interface"
 
 export type TResult =
 | ["success", string]

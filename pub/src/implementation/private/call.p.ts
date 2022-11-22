@@ -1,6 +1,7 @@
+import * as api from "../../interface"
+
 import * as http from "http"
 import * as pl from "pareto-core-internals"
-import * as api from "api-pareto-http"
 import * as pth from "path"
 
 export function call(
