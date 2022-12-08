@@ -7,8 +7,8 @@ import { call } from "../private/call.p"
 export const f_createHTTPResource: api.FCreateHTTPResource = ($, $i) => {
     const settings = $
     const onError = $i.onError
-    return ($, $i) => {
-        let consumer: null | api.IStreamConsumer<string> = null
+    return ($) => {
+        let consumer: null | api.PStreamConsumer = null
         return call(
             {
                 hostname: settings.hostName,
