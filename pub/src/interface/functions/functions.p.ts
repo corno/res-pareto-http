@@ -1,5 +1,5 @@
 import * as pt from "pareto-core-types"
-import { PStreamConsumer, PProcessHTTPSResource } from "../procedures/procedures.p"
+import { PProcessHTTPSResource } from "../procedures/procedures.p"
 
 import { THTTPError } from "../types/HTTPError.p"
 import { TPath } from "../types/Path.p";
@@ -18,3 +18,10 @@ export type FCreateHTTPResource = (
         readonly "onError": ($: THTTPError) => void
     }
 ) => PProcessHTTPSResource
+
+
+
+export type PStreamConsumer = {
+    readonly "onData": ($: string) => void
+    readonly "onEnd": () => void
+}
