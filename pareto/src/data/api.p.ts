@@ -12,7 +12,6 @@ import {
     externalTypeReference,
     callback,
     interfaceReference,
-    externalNamespacedTypeReference,
     procedure,
     null_,
     method,
@@ -33,31 +32,27 @@ export const $: mmoduleDefinition.TModuleDefinition = {
             "common": "glo-pareto-common",
         }),
         'parameters': d({}),
-        'namespace': {
-            'types': types({
-                "Configuration": group({
-                    "hostName": member(str()),
-                    "contextPath": member(er("common", "Path"))
-                }),
-                "HTTPError": taggedUnion({
-                    "unknown": str()
+        'types': types({
+            "Configuration": group({
+                "hostName": member(str()),
+                "contextPath": member(er("common", "Path"))
+            }),
+            "HTTPError": taggedUnion({
+                "unknown": str()
+            })
+        }),
+        'interfaces': d({
+            "Init": method(null, ['reference', {
+                'context': ['local', null],
+                'interface': "StreamConsumer"
+            }], false),
+            "StreamConsumer": ['group', {
+                'members': d({
+                    "onData": method(externalTypeReference("common", "String")),
+                    "onEnd": method(null)
                 })
-            }),
-            'interfaces': d({
-                "Init": method(null, ['reference', {
-                    'context': ['local', null],
-                    'namespaces': a([]),
-                    'interface': "StreamConsumer"
-                }], false),
-                "StreamConsumer": ['group', {
-                    'members': d({
-                        "onData": method(externalNamespacedTypeReference("common", "String")),
-                        "onEnd": method(null)
-                    })
-                }]
-            }),
-
-        },
+            }]
+        }),
         'functions': d({
             "HandleError": procedure(typeReference("HTTPError")),
             "ProcessHTTPResource": callback(externalTypeReference("common", "Path"), interfaceReference("Init")),
