@@ -32,6 +32,7 @@ export const $: mmoduleDefinition.TModuleDefinition = {
             "common": "glo-pareto-common",
         }),
         'parameters': d({}),
+        'templates': d({}),
         'types': types({
             "Configuration": group({
                 "hostName": member(str()),
