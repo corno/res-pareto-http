@@ -1,30 +1,22 @@
 import * as pr from 'pareto-core-raw'
 import {
-    externalReference as er,
-    string as str,
-    reference as ref,
-    boolean as bln,
-    number as nr,
+    reference,
+    string,
     nested,
-    optional,
     array,
     typeReference,
-    externalTypeReference,
     callback,
     interfaceReference,
     procedure,
     null_,
-    method,
+    method, dictionary, group, member, taggedUnion, types, _function
 } from "lib-pareto-typescript-project/dist/modules/glossary/api/shorthands.p"
-import { dictionary, group, member, taggedUnion, types, _function } from "lib-pareto-typescript-project/dist/modules/glossary/api/shorthands.p"
 
 
-import { definitionReference, externalDefinitionReference, constructor } from "lib-pareto-typescript-project/dist/modules/moduleDefinition/api/shorthands.p"
+import { definitionReference, constructor, algorithm } from "lib-pareto-typescript-project/dist/modules/moduleDefinition/api/shorthands.p"
 import * as mmoduleDefinition from "lib-pareto-typescript-project/dist/modules/moduleDefinition"
 
 const d = pr.wrapRawDictionary
-const a = pr.wrapRawArray
-
 
 export const $: mmoduleDefinition.TModuleDefinition = {
     'glossary': {
@@ -35,28 +27,28 @@ export const $: mmoduleDefinition.TModuleDefinition = {
         'templates': d({}),
         'types': types({
             "Configuration": group({
-                "hostName": member(str()),
-                "contextPath": member(er("common", "Path"))
+                "hostName": member(string()),
+                "contextPath": member(reference("common", "Path"))
             }),
             "HTTPError": taggedUnion({
-                "unknown": str()
+                "unknown": string()
             })
         }),
         'interfaces': d({
             "Init": method(null, ['reference', {
-                'context': ['local', null],
+                'context': ['local', {}],
                 'interface': "StreamConsumer"
             }], false),
             "StreamConsumer": ['group', {
                 'members': d({
-                    "onData": method(externalTypeReference("common", "String")),
+                    "onData": method(typeReference("common", "String")),
                     "onEnd": method(null)
                 })
             }]
         }),
         'functions': d({
             "HandleError": procedure(typeReference("HTTPError")),
-            "ProcessHTTPResource": callback(externalTypeReference("common", "Path"), interfaceReference("Init")),
+            "ProcessHTTPResource": callback(typeReference("common", "Path"), interfaceReference("Init")),
         }),
     },
     'api': {
@@ -64,14 +56,11 @@ export const $: mmoduleDefinition.TModuleDefinition = {
             "common": "glo-pareto-common",
         }),
         'algorithms': d({
-            "createHTTPResourceProcessor": {
-                'definition': definitionReference("ProcessHTTPResource"),
-                'type': constructor(typeReference("Configuration"), {
-                    "onNotExists": externalDefinitionReference("common", "Signal"),
-                    "onFailed": externalDefinitionReference("common", "Signal"),
-                    "onError": definitionReference("HandleError"),
-                }),
-            }
+            "createHTTPResourceProcessor": algorithm(definitionReference("ProcessHTTPResource"), constructor(typeReference("Configuration"), {
+                "onNotExists": definitionReference("common", "Signal"),
+                "onFailed": definitionReference("common", "Signal"),
+                "onError": definitionReference("HandleError"),
+            })),
         })
     },
 }

@@ -7,7 +7,7 @@ const d = pr.wrapRawDictionary
 import { $ as api } from "./api.p"
 
 export const $: mproject.TProject = {
-    'type': ['resource', null],
+    'type': ['resource', {}],
     'modules': d({
         "main": {
             'definition': api,
