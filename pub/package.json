@@ -1,8 +1,8 @@
 {
-  "name": "res-pareto-collation",
   "author": "Corno",
   "license": "ISC",
   "description": "a pareto wrapper around the HTTP library of NodeJS",
+
   "dependencies": {
     "glo-pareto-common": "^0.10.0",
     "pareto-core-internals": "^0.11.0"
@@ -14,11 +14,8 @@
     "dist"
   ],
   "repository": {
-    "type": "git",
-    "url": "http://github.com/corno/res-pareto-collation.git"
+    "type": "git"
   },
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "version": "0.0.0",
-  "content-fingerprint": "bfc0b4e6e93a40eb1e0ec2251cb36e95e0fa8b41"
+  "types": "dist/index.d.ts"
 }
