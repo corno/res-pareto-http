@@ -4,7 +4,7 @@
   "description": "a pareto wrapper around the HTTP library of NodeJS",
 
   "dependencies": {
-    "glo-pareto-common": "^0.10.0",
+    "glo-pareto-common": "^0.11.0",
     "pareto-core-internals": "^0.11.0"
   },
   "devDependencies": {
