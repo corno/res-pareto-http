@@ -2,6 +2,7 @@
   "author": "Corno",
   "license": "ISC",
   "description": "a pareto wrapper around the HTTP library of NodeJS",
+
   "dependencies": {
     "glo-pareto-common": "^0.11.0",
     "pareto-core-internals": "^0.11.0"
@@ -13,12 +14,8 @@
     "dist"
   ],
   "repository": {
-    "type": "git",
-    "url": "http://github.com/corno/res-pareto-http.git"
+    "type": "git"
   },
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "name": "res-pareto-http",
-  "version": "0.17.0",
-  "content-fingerprint": "c94456299ad7351aae6dc2e6bae054afd8c7c8d8"
+  "types": "dist/index.d.ts"
 }
