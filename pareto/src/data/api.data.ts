@@ -7,7 +7,7 @@ import {
     typeReference,
     interfaceReference,
     null_,
-    method, dictionary, group, member, taggedUnion, types, func, data
+    method, dictionary, group, member, taggedUnion, types, func, data, type
 } from "lib-pareto-typescript-project/dist/submodules/glossary/shorthands.p"
 
 
@@ -16,21 +16,20 @@ import * as mmoduleDefinition from "lib-pareto-typescript-project/dist/submodule
 
 const d = pr.wrapRawDictionary
 
-export const $: mmoduleDefinition.TModuleDefinition = {
+export const $: mmoduleDefinition.T.ModuleDefinition = {
     'glossary': {
         'imports': d({
             "common": "glo-pareto-common",
         }),
         'parameters': d({}),
-        'templates': d({}),
-        'types': types({
-            "Configuration": group({
+        'types': d({
+            "Configuration": type(group({
                 "hostName": member(string()),
                 "contextPath": member(reference("common", "Path"))
-            }),
-            "HTTPError": taggedUnion({
+            })),
+            "HTTPError": type(taggedUnion({
                 "unknown": string()
-            })
+            })),
         }),
         'interfaces': d({
             "Init": method(null, ['reference', {
@@ -55,8 +54,8 @@ export const $: mmoduleDefinition.TModuleDefinition = {
         }),
         'algorithms': d({
             "createHTTPResourceProcessor": algorithm(definitionReference("ProcessHTTPResource"), constructor(typeReference("Configuration"), {
-                "onNotExists": definitionReference("common", "Signal"),
-                "onFailed": definitionReference("common", "Signal"),
+                "onNotExists": definitionReference("common", {}, "Signal"),
+                "onFailed": definitionReference("common", {}, "Signal"),
                 "onError": definitionReference("HandleError"),
             })),
         })

@@ -4,7 +4,7 @@ import * as glo from "./glossary"
 
 import * as mcommon from "glo-pareto-common"
 
-export type CcreateHTTPResourceProcessor = ($: glo.TConfiguration, $d: {
+export type CcreateHTTPResourceProcessor = ($: glo.T.Configuration, $d: {
     readonly 'onError': glo.FHandleError
     readonly 'onFailed': mcommon.FSignal
     readonly 'onNotExists': mcommon.FSignal
