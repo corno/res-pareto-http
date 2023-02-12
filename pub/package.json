@@ -4,11 +4,11 @@
   "description": "a pareto wrapper around the HTTP library of NodeJS",
 
   "dependencies": {
-    "glo-pareto-common": "^0.0.0",
-    "pareto-core-internals": "^0.0.0"
+    "glo-pareto-common": "^0.12.0",
+    "pareto-core-internals": "^0.11.1"
   },
   "devDependencies": {
-    "@types/node": "^0.0.0"
+    "@types/node": "^18.13.0"
   },
   "files": [
     "dist"
