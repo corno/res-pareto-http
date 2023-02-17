@@ -8,10 +8,10 @@ import {
     interfaceReference,
     null_,
     method, dictionary, group, member, taggedUnion, types, func, data, type
-} from "lib-pareto-typescript-project/dist/submodules/glossary/shorthands.p"
+} from "lib-pareto-typescript-project/dist/submodules/glossary/shorthands"
 
 
-import { definitionReference, constructor, algorithm } from "lib-pareto-typescript-project/dist/submodules/moduleDefinition/shorthands.p"
+import { definitionReference, constructor, algorithm } from "lib-pareto-typescript-project/dist/submodules/moduleDefinition/shorthands"
 import * as mmoduleDefinition from "lib-pareto-typescript-project/dist/submodules/moduleDefinition"
 
 const d = pd.wrapRawDictionary
