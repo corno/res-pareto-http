@@ -1,6 +1,7 @@
 
 import * as pm from "pareto-core-state"
 import * as pl from "pareto-core-lib"
+import * as pv from "pareto-core-dev"
 
 import * as mtest from "lib-pareto-test"
 
@@ -9,7 +10,7 @@ import * as api from "../api"
 import * as pub from "../../../../../pub"
 
 export const $$: api.CgetTestSet = () => {
-    pl.logDebugMessage("START")
+    pv.logDebugMessage("START")
 
     pub.$a.createHTTPResourceProcessor(
         {
@@ -18,23 +19,23 @@ export const $$: api.CgetTestSet = () => {
         },
         {
             onError: () => {
-                pl.implementMe(`XSSDF`)
+                pv.implementMe(`XSSDF`)
             },
             onFailed: () => {
-                pl.implementMe(`XSSDF`)
+                pv.implementMe(`XSSDF`)
 
             },
             onNotExists: () => {
-                pl.implementMe(`XSSDF`)
+                pv.implementMe(`XSSDF`)
             }
         }
     )([], () => {
         return {
             onData: ($) => {
-                pl.logDebugMessage($)
+                pv.logDebugMessage($)
             },
             onEnd: () => {
-                pl.logDebugMessage("ENDED")
+                pv.logDebugMessage("ENDED")
             }
         }
     })
