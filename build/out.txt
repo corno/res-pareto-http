@@ -1,0 +1,454 @@
+const $ = {
+    "buildAndTest.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "\"$scriptDir/prebuild.sh\" && \",
+
+    "\"$scriptDir/buildPubAndTestPackages.sh\" && \",
+
+    "\"$scriptDir/test.sh\"",
+]
+"buildDevPackage.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "\"$scriptDir/buildPackage.sh\" \"$(pwd)/../dev\"",
+]
+"buildFromScratch.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "#this must be done before the clean command",
+    "pushd \"$rootDir/build\" > /dev/null && \",
+
+    "\"$scriptDir/clean.sh\" && \",
+
+    "npm install && \",
+    "\"./initialize.sh\" && \",
+    "popd > /dev/null && \",
+
+    "\"$scriptDir/updateAllAndBuild.sh\"",
+]
+"buildPackage.sh": [
+    "#!/usr/bin/env bash",
+
+    "projectDir=$1",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "buildDir=\"$scriptDir/..\"",
+
+    "if [ -d \"$projectDir\" ]",
+    "then",
+        "rm -rf \"$projectDir/dist\" && \",
+        "pushd \"$buildDir\" > /dev/null && \",
+        "npx tsc -p \"$projectDir\" && \",
+        "popd > /dev/null",
+    "fi",
+]
+"buildParetoPackage.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "\"$scriptDir/buildPackage.sh\" \"$(pwd)/../pareto\"",
+]
+"buildPubAndTestPackages.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "#pub",
+    "$scriptDir/buildPackage.sh \"$rootDir/pub\" && \",
+
+    "if [ -d \"$rootDir/pub/dist/bin\" ]",
+    "then",
+        "pushd \"$rootDir\" > /dev/null && \",
+        "find \"./pub/dist/bin\" -name \"*.js\" -exec chmod 777 {} + && \",
+        "popd > /dev/null",
+    "fi && \",
+
+    "#test",
+    "$scriptDir/buildPackage.sh \"$rootDir/test\"",
+
+]
+"checkPackageUpdates.sh": [
+    "#!/usr/bin/env bash",
+
+    "projectType=$1",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+    "buildDir=\"$scriptDir/..\"",
+
+    "part=\"$rootDir/$projectType\"",
+
+    "if [ -d \"$part\" ]",
+    "then",
+        "pushd \"$buildDir\" > /dev/null && \",
+        "npx npm-check-updates -u --packageFile \"$part/package.json\" > /dev/null && \",
+        "popd > /dev/null",
+    "fi",
+]
+"clean.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "rm -rf $rootDir/.gitignore && \",
+    "rm -rf $rootDir/tmp && \",
+
+    "rm -rf $rootDir/dev/dist && \",
+    "rm -rf $rootDir/dev/package-lock.json && \",
+    "rm -rf $rootDir/dev/node_modules && \",
+
+    "rm -rf $rootDir/pareto/dist && \",
+    "rm -rf $rootDir/pareto/package-lock.json && \",
+    "rm -rf $rootDir/pareto/node_modules && \",
+
+    "rm -rf $rootDir/pub/dist && \",
+    "rm -rf $rootDir/pub/node_modules && \",
+    "rm -rf $rootDir/pub/package.json && \",
+    "rm -rf $rootDir/pub/package-lock.json && \",
+    "rm -rf $rootDir/pub/tsconfig.json && \",
+    "pushd \"$rootDir/pub\" > /dev/null && \",
+    "find ./src -name \"index.ts\" -exec rm {} \; && \",
+    "find ./src -name \"*.generated.ts\" -exec rm {} \; && \",
+    "popd > /dev/null && \",
+
+
+    "rm -rf $rootDir/test/dist && \",
+    "rm -rf $rootDir/test/node_modules && \",
+    "rm -rf $rootDir/pub/package.json && \",
+    "rm -rf $rootDir/pub/package-lock.json && \",
+    "rm -rf $rootDir/pub/tsconfig.json && \",
+
+    "rm -rf $rootDir/build/node_modules && \",
+    "rm -rf $rootDir/build/package-lock.json && \",
+    "rm -rf $rootDir/build/scripts",
+]
+"isPackageChanged.sh": [
+    "#!/usr/bin/env bash",
+
+    "cd \"../pub\"",
+
+
+    "root=\"`cd \"$rootDir\";pwd`\" # the resolved path to the root dir of the project",
+    "name=`basename $root`",
+
+    "localFingerprint=$(npm pkg get content-fingerprint | cut -c2- | rev | cut -c2- |rev)",
+    "remoteFingerprint=$(npm view $name@latest content-fingerprint)",
+
+    "if [ $localFingerprint != $remoteFingerprint ]",
+    "then",
+        "echo \"NOT EQUAL!!!!!!!!!!!!!!!!!!!!!!\"",
+    "fi",
+
+    "echo $localFingerprint $remoteFingerprint       ",
+]
+"package-lock.json": [
+    "{",
+    "\"name\": \"scripts\",",
+    "\"lockfileVersion\": 2,",
+    "\"requires\": true,",
+    "\"packages\": {}",
+    "}",
+
+]
+"package.json": [
+    "{",
+    "\"scripts\": {",
+        "\"updateBuildEnvironment\": \"./updateBuildEnvironment.sh\",",
+        "\"updatePrebuildDependencies\": \"./updatePrebuildDependenciesAndBuild.sh\",",
+        "\"buildAndTest\": \"./buildAndTest.sh\",",
+        "\"updateDependencies\": \"./updateDependenciesAndBuild.sh\",",
+        "\"publish\": \"./publish.sh\"",
+    "}",
+    "}",
+
+]
+"prebuild.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+    "buildDir=\"$scriptDir/..\"",
+
+    "if [ -d \"$rootDir/dev\" ]",
+    "then",
+        "\"$scriptDir/buildDevPackage.sh\" && \",
+        "pushd \"$buildDir\" > /dev/null && \",
+        "npx tsc -p \"$rootDir/dev\" && \",
+        "popd > /dev/null && \",
+        "node --enable-source-maps \"$rootDir/dev/dist/bin/generateCode.generated.js\" \"$rootDir\"",
+    "fi && \",
+
+    "rm -rf \"$rootDir/tmp/templates\" && \",
+
+    "\"$scriptDir/buildParetoPackage.sh\" && \",
+    "pushd \"$buildDir\" > /dev/null && \",
+    "npx tsc -p \"$rootDir/pareto\" && \",
+    "popd > /dev/null && \",
+    "node --enable-source-maps \"$rootDir/pareto/dist/bin/generateCode.generated.js\" \"$rootDir\"",
+
+]
+"publish.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "#the scriptsdir will be deleted, change to the root",
+    "cd \"$rootDir\" && \",
+
+    "#make sure everything is pushed",
+    "git push && \",
+
+    "#validate that everything is committed and pushed (to make sure we're not messing with open work)",
+    "git diff --exit-code && git log origin/master..master --exit-code && \",
+
+    "echo \"...building from scratch\" && \",
+    "\"$scriptDir/buildFromScratch.sh\" && \",
+
+    "#validate that everything is still committed after the update and build",
+    "git diff --exit-code && git log origin/master..master --exit-code && \",
+
+    "pushd \"$rootDir/pub\" > /dev/null && \",
+
+    "echo \"...setting dynamic package data\" && \",
+    "\"$scriptDir/setDynamicPackageData.sh\" && \",
+
+    "echo \"...determining scope of change\" && \",
+
+    "rawLocalInterfaceFingerPrint=`npm pkg get interface-fingerprint` && \",
+    "if [ $rawLocalInterfaceFingerPrint == \"{}\" ]",
+    "then",
+        "#no interface fingerprint",
+
+        "\"$scriptDir/publishIfContentChanged.sh\" \"minor\"",
+
+    "else",
+
+        "localInterfaceFingerPrint=$($rawLocalInterfaceFingerPrint | cut -c2- | rev | cut -c2- |rev) && \",
+        "remoteInterfaceFingerprint=$(npm view $name@latest interface-fingerprint) && \",
+
+        "if [ $localInterfaceFingerPrint != $remoteInterfaceFingerprint ]",
+        "then",
+            "\"$scriptDir/publishWithoutChecks.sh\" \"minor\"",
+        "else",
+            "\"$scriptDir/publishIfContentChanged.sh\" \"patch\"",
+        "fi",
+    "fi",
+]
+"publishIfContentChanged.sh": [
+    "#!/usr/bin/env bash",
+
+    "generation=$1",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "pushd \"$rootDir/pub\" > /dev/null && \",
+
+    "localFingerprint=$(npm pkg get content-fingerprint | cut -c2- | rev | cut -c2- |rev) && \",
+
+    "root=\"`cd \"$rootDir\";pwd`\" # the resolved path to the root dir of the project",
+    "name=`basename $root`",
+
+    "popd && \",
+
+    "remoteFingerprint=$(npm view $name@latest content-fingerprint) && \",
+    "if [ $localFingerprint == $remoteFingerprint ]",
+    "then",
+        "echo \"no changes detected, nothing is published\"",
+    "else",
+        "$scriptDir/publishWithoutChecks.sh $generation",
+    "fi",
+]
+"publishWithoutChecks.sh": [
+    "#!/usr/bin/env bash",
+    "generation=$1",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "#bump version and store in variable",
+    "newVersion=$(npm version \"$generation\") && \",
+    "echo \"version bumped: $generation\" && \",
+
+    "#commit package.json with new version number",
+    "git add $rootDir && \",
+    "git commit -m \"version bumped to $newVersion\" && \",
+
+    "#create a tag",
+    "git tag -a \"$newVersion\" -m \"$newVersion\" && \",
+    "git push && \",
+
+    "#publish",
+    "pushd \"$rootDir/pub\" > /dev/null && \",
+    "npm publish && \",
+    "popd",
+
+]
+"setDynamicPackageData.sh": [
+    "#!/usr/bin/env bash",
+    "generation=$1",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+    "pubDir=\"$rootDir/pub\"",
+
+    "root=\"`cd \"$rootDir\";pwd`\" # the resolved path to the root dir of the project",
+
+    "if [ -d \"$pubDir\" ]",
+    "then",
+        "pushd \"$pubDir\" > /dev/null && \",
+
+        "#I want to have a fingerprint of the content of an npm package to be able to see if the local data is",
+        "#identical to what was already published. If that is the case, there is nothing to publish",
+        "#the version should not be part of that",
+        "#if I publish the exact same package under 2 version numbers, the fingerprint should be the same",
+
+
+        "#first take care of the interface fingerprint",
+        "# apiDir=\"./src/\"",
+        "# if [ -d \"$apiDir\" ]",
+        "# then",
+        "#     npm pkg set interface-fingerprint=`tar -cf - $apiDir | shasum | cut -c1-40`",
+        "# else",
+        "#     npm pkg delete interface-fingerprint #delete if it was there",
+        "# fi",
+
+        "#now take care of the content fingerprint",
+
+        "npm pkg set name=\"x\" && \",
+        "npm pkg set version=\"0.0.0\" && \",
+        "npm pkg delete content-fingerprint && \",
+        "npm pkg delete interface-fingerprint",
+        "#create a package, but don't store it (--dry-run), let the summary output be json",
+        "#create a shasum of that and then trim to the first 40 characters of that shasum (the rest is filename info, which in this case is: ' -')",
+        "contentfingerprint=$(npm pack --dry-run --json | shasum | cut -c1-40)",
+        "npm pkg set content-fingerprint=\"$contentfingerprint\" && \",
+
+        "name=`basename $root` && \",
+        "npm pkg set name=\"$name\" && \",
+        "npm pkg set repository.url=\"http://github.com/corno/$name.git\" && \",
+
+        "remoteVersion=$(npm view $name@latest version) && \",
+
+        "npm pkg set version=\"$remoteVersion\" && \",
+
+
+        "popd > /dev/null",
+    "fi",
+
+
+
+]
+"test.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "root=\"`cd \"$rootDir\";pwd`\" # the resolved path to the root dir of the project",
+    "rootName=`basename $root`",
+
+    "if [[ $rootName == glo-* || $rootName == pareto-core-types ]]",
+    "then",
+        "echo \"$rootName; no testing for glossary or core-types\"",
+    "else",
+        "node --enable-source-maps $rootDir/test/dist/bin/test.generated.js $rootDir/test/data",
+    "fi",
+
+]
+"updateAllAndBuild.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "#make sure latest buildenvironment is installed",
+    "\"$scriptDir/updateBuildEnvironment.sh\" && \",
+
+    "#update packages and build",
+    "\"$scriptDir/updatePrebuildDependencies.sh\" && \",
+    "\"$scriptDir/prebuild.sh\" && \",
+    "\"$scriptDir/updateDependenciesAndBuild.sh\"",
+]
+"updateBuildEnvironment.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptsDir=`realpath $(dirname \"$0\")`",
+    "buildDir=\"$scriptsDir/..\"",
+
+    "pushd \"$buildDir\" > /dev/null && \",
+    "npx npm-check-updates -u --packageFile \"$buildDir/package.json\" && \",
+    "npx npm-safe-install -t \"$buildDir\"",
+    "popd > /dev/null",
+
+    "\"$buildDir/node_modules/pareto-buildenvironment/initialize.sh\" \"$buildDir\"",
+
+]
+"updateDependenciesAndBuild.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "\"$scriptDir/updatePackage.sh\" pub && \",
+    "\"$scriptDir/updatePackage.sh\" test && \",
+
+    "\"$scriptDir/buildPubAndTestPackages.sh\" && \",
+
+    "\"$scriptDir/test.sh\"",
+]
+"updatePackage.sh": [
+    "#!/usr/bin/env bash",
+
+    "projectType=$1",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+    "buildDir=\"$scriptDir/..\"",
+
+    "part=\"$rootDir/$projectType\"",
+
+    "if [ -d \"$part\" ]",
+    "then    ",
+        "pushd \"$buildDir\" > /dev/null && \",
+        "# npm outdated --json --prefix \"$part\" & \ #ignore the exitCode",
+        "npx npm-check-updates -u --packageFile \"$part/package.json\" && \",
+        "npx npm-safe-install -t \"$part/\" && \",
+        "popd > /dev/null",
+    "fi",
+]
+"updatePrebuildDependencies.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "\"$scriptDir/updatePackage.sh\" dev && \",
+    "\"$scriptDir/updatePackage.sh\" pareto",
+]
+"updatePrebuildDependenciesAndBuild.sh": [
+    "#!/usr/bin/env bash",
+
+    "scriptDir=`realpath $(dirname \"$0\")`",
+    "rootDir=\"$scriptDir/../..\"",
+
+    "\"$scriptDir/updatePrebuildDependencies.sh\" && \",
+    "\"$scriptDir/prebuild.sh\" && \",
+    "\"$scriptDir/buildAndTest.sh\"",
+]
+}
