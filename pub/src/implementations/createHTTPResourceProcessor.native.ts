@@ -1,17 +1,15 @@
-import * as pi from "pareto-core-internals"
+import * as pi from 'pareto-core-internals'
 
-import * as api from "../api"
-
-import * as http from "http"
-import * as pl from "pareto-core-internals"
-import * as pth from "path"
-
+import * as mapi from "../api"
 import * as mcommon from "glo-pareto-common"
 
-export const $$: api.CcreateHTTPResourceProcessor = ($x, $d) => {
+import * as nhttp from "http"
+import * as npth from "path"
+
+export const $$: mapi.CcreateHTTPResourceProcessor = ($x, $d) => {
     return ($, $c) => {
         const onError = $d.onError
-        let consumer: null | api.IStreamConsumer = null
+        let consumer: null | mapi.IStreamConsumer = null
         function call(
             $: {
                 readonly "hostname": string,
@@ -19,18 +17,18 @@ export const $$: api.CcreateHTTPResourceProcessor = ($x, $d) => {
             },
             $i: {
                 onData: (data: string) => void,
-                onError: (e: api.T.HTTPError) => void,
+                onError: (e: mapi.T.HTTPError) => void,
                 onEnd: () => void
             }
         ): void {
             const options = {
                 hostname: $.hostname,
                 //port: 443,
-                path: pth.join(...pl.flatten($.path)),
+                path: npth.join(...pi.flatten($.path)),
                 method: 'GET'
             }
         
-            const req = http.request(options, res => {
+            const req = nhttp.request(options, res => {
                 res.setEncoding('utf-8')
                 //console.log(`statusCode: ${res.statusCode}`)
         
@@ -44,7 +42,7 @@ export const $$: api.CcreateHTTPResourceProcessor = ($x, $d) => {
         
             req.on('error', error => {
                 console.error(`FIX HTTP ERROR HANDLING; ${error.message}`)
-                $i.onError(["unknown", error.message])
+                $i.onError(['unknown', error.message])
             })
         
             req.end()

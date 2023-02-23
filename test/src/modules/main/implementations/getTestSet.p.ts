@@ -1,18 +1,16 @@
 
-import * as pm from "pareto-core-state"
-import * as pl from "pareto-core-lib"
-import * as pv from "pareto-core-dev"
+import * as ps from 'pareto-core-state'
+import * as pv from 'pareto-core-dev'
+import * as pa from 'pareto-core-async'
 
 import * as mtest from "lib-pareto-test"
+import * as mapi from "../api"
+import * as mpub from "../../../../../pub"
 
-import * as api from "../api"
-
-import * as pub from "../../../../../pub"
-
-export const $$: api.CgetTestSet = () => {
+export const $$: mapi.CgetTestSet = () => {
     pv.logDebugMessage("START")
 
-    pub.$a.createHTTPResourceProcessor(
+    mpub.$a.createHTTPResourceProcessor(
         {
             'hostName': "www.nu.nl",
             'contextPath': "",
@@ -39,11 +37,11 @@ export const $$: api.CgetTestSet = () => {
             }
         }
     })
-    const builder = pm.createUnsafeDictionaryBuilder<mtest.T.TestElement>()
+    const builder = ps.createUnsafeDictionaryBuilder<mtest.T.TestElement>()
     function createTest(name: string, actual: string, expected: string) {
         builder.add(name, {
-            type: ["test", {
-                type: ["short string", {
+            'type': ['test', {
+                type: ['short string', {
                     actual: actual,
                     expected: expected
                 }]
@@ -51,7 +49,7 @@ export const $$: api.CgetTestSet = () => {
         })
     }
 
-    return pl.asyncValue({
+    return pa.asyncValue({
         elements: builder.getDictionary()
     })
 }
