@@ -1,23 +1,25 @@
 import * as pi from 'pareto-core-internals'
 
-import * as mapi from "../api"
-import * as mcommon from "glo-pareto-common"
+import * as gapi from "../api"
+import * as gcommon from "glo-pareto-common"
 
 import * as nhttp from "http"
 import * as npth from "path"
 
-export const $$: mapi.CcreateHTTPResourceProcessor = ($x, $d) => {
+import { CcreateHTTPResourceProcessor } from "../api"
+
+export const $$:CcreateHTTPResourceProcessor = ($x, $d) => {
     return ($, $c) => {
         const onError = $d.onError
-        let consumer: null | mapi.IStreamConsumer = null
+        let consumer: null | gapi.IStreamConsumer = null
         function call(
             $: {
                 readonly "hostname": string,
-                readonly "path": mcommon.T.Path,
+                readonly "path": gcommon.T.Path,
             },
             $i: {
                 onData: (data: string) => void,
-                onError: (e: mapi.T.HTTPError) => void,
+                onError: (e: gapi.T.HTTPError) => void,
                 onEnd: () => void
             }
         ): void {
