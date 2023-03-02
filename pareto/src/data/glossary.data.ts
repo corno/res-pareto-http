@@ -36,7 +36,7 @@ export const $: gglossary.T.Glossary<pd.SourceLocation> =  {
     }),
     'interfaces': d({
         "Init": method(null, ['reference', {
-            'context': ['local', {}],
+            'context': ['local', null],
             'interface': "StreamConsumer"
         }], false),
         "StreamConsumer": ['group', {
