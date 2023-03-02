@@ -1,12 +1,12 @@
 import * as pi from 'pareto-core-internals'
 
-import * as gapi from "../api"
+import * as gapi from "../definition/glossary"
 import * as gcommon from "glo-pareto-common"
 
 import * as nhttp from "http"
 import * as npth from "path"
 
-import { CcreateHTTPResourceProcessor } from "../api"
+import { CcreateHTTPResourceProcessor } from "../definition/api.generated"
 
 export const $$:CcreateHTTPResourceProcessor = ($x, $d) => {
     return ($, $c) => {
