@@ -13,8 +13,8 @@ import {
     optional,
     reference,
     number,
-    method,
-    interfaceReference,
+    builderMethod,
+    builderReference,
 } from "lib-pareto-typescript-project/dist/submodules/glossary/shorthands"
 
 import * as gglossary from "lib-pareto-typescript-project/dist/submodules/glossary"
@@ -25,26 +25,27 @@ export const $: gglossary.T.Glossary<pd.SourceLocation> =  {
     'types': d({
         "Configuration": type(group({
             "hostName": member(string()),
-            "contextPath": member(reference("common", "Path"))
+            "contextPath": member(reference("common", "Path")),
         })),
         "HTTPError": type(taggedUnion({
-            "unknown": string()
+            "unknown": string(),
         })),
     }),
+    'builders': d({}),
     'interfaces': d({
-        "Init": method(null, ['reference', {
-            'context': ['local', null],
-            'interface': "StreamConsumer"
-        }], false),
-        "StreamConsumer": ['group', {
-            'members': d({
-                "onData": method(typeReference("common", "String")),
-                "onEnd": method(null)
-            })
-        }]
+        // "Init": builderMethod(null, ['reference', {
+        //     'context': ['local', null],
+        //     'interface': "StreamConsumer"
+        // }], false),
+        // "StreamConsumer": ['group', {
+        //     'members': d({
+        //         "onData": builderMethod(typeReference("common", "String")),
+        //         "onEnd": builderMethod(null),
+        //     }),
+        // }]
     }),
     'functions': d({
         "HandleError": func(typeReference("HTTPError"), null, null, null),
-        "ProcessHTTPResource": func(typeReference("common", "Path"), null, interfaceReference("Init"), null),
+        "ProcessHTTPResource": func(typeReference("common", "Path"), null, builderReference("Init"), null),
     }),
 }

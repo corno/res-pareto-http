@@ -1,16 +1,16 @@
 import * as pt from 'pareto-core-types'
 
-import { T   } from './types.generated'
+import { T } from './types.generated'
 
-import * as gcommon from "glo-pareto-common"
+import * as g_common from "glo-pareto-common"
 
-export type IInit = () => IStreamConsumer
+export namespace I {}
 
-export type IStreamConsumer = {
-    'onData': ($: gcommon.T.String, ) => void
-    'onEnd': () => void
+export namespace B {}
+
+export namespace F {
+    
+    export type HandleError = ($: T.HTTPError,) => void
+    
+    export type ProcessHTTPResource = ($: g_common.T.Path, $b: B.Init,) => void
 }
-
-export type FHandleError = ($: T.HTTPError,) => void
-
-export type FProcessHTTPResource = ($: gcommon.T.Path, $i: IInit,) => void

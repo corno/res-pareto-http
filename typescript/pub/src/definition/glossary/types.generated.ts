@@ -1,18 +1,18 @@
 import * as pt from 'pareto-core-types'
 
-import * as gcommon from "glo-pareto-common"
+import * as g_common from "glo-pareto-common"
 
 export namespace T {
     
     export namespace Configuration {
         
-        export type contextPath = gcommon.T.Path
+        export type contextPath = g_common.T.Path
         
         export type hostName = string
     }
     
     export type Configuration = {
-        readonly 'contextPath': gcommon.T.Path
+        readonly 'contextPath': g_common.T.Path
         readonly 'hostName': string
     }
     

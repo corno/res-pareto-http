@@ -12,5 +12,5 @@ export const $: gapi.T.API<pd.SourceLocation> =  {
             "onFailed": functionReference("common", {}, "Signal"),
             "onError": functionReference("this", {}, "HandleError"),
         })),
-    })
+    }),
 }
