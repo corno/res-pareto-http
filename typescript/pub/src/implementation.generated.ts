@@ -1,6 +1,6 @@
-import { API } from "./definition/api.generated"
-import { $$ as icreateHTTPResourceProcessor } from "./implementations/createHTTPResourceProcessor.native"
+import { API } from "./api.generated"
+import { $$ as ihttpRequest } from "./implementations/httpRequest.native"
 
 export const $r: API = {
-    'createHTTPResourceProcessor': icreateHTTPResourceProcessor,
+    'httpRequest': ihttpRequest,
 }

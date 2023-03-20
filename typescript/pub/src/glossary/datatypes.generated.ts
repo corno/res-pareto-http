@@ -16,6 +16,8 @@ export namespace T {
         readonly 'hostName': string
     }
     
+    export type EncounteredErrors = boolean
+    
     export namespace HTTPError {
         
         export type _lunknown = string

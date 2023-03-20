@@ -1,15 +1,15 @@
 import * as pd from 'pareto-core-data'
 
-import * as gproject from "lib-pareto-typescript-project/dist/submodules/project"
+import * as g_project from "lib-pareto-typescript-project/dist/submodules/project"
 
 const d = pd.d
 
-import { $ as api } from "./api.data"
-import { $ as glossary } from "./glossary.data"
+import { $ as api } from "./main/api.data"
+import { $ as glossary } from "./main/glossary.data"
 
 import { external, this_ } from "lib-pareto-typescript-project/dist/submodules/project/shorthands"
 
-export const $: gproject.T.Project<pd.SourceLocation> = {
+export const $: g_project.T.Project<pd.SourceLocation> = {
     'author': "Corno",
     'description': "a pareto wrapper around the HTTP library of NodeJS",
     'license': "TBD",
@@ -34,19 +34,38 @@ export const $: gproject.T.Project<pd.SourceLocation> = {
                 }),
             },
         },
-        'nativeDependencies': d({}),
-        'devDependencies': d({
-            "@types/node": null,
-        }),
+        'temp': {
+            'nativeDependencies': d({}),
+            'devDependencies': d({
+                "@types/node": null,
+            }),
+        },
         'test': {
             'dependencies': d({
             }),
-            'glossary': {
-                'parameters': d({}),
-                'types': d({}),
-                'builders': d({}),
-                'interfaces': d({}),
-                'functions': d({}),
+            'definition': {
+                'glossary': {
+                    'root': {
+                        'parameters': d({}),
+                        'imports': d({}),
+                        'types': d({}),
+                        'asynchronous': {
+                            'interfaces': d({}),
+                            'algorithms': d({}),
+                        },
+                        'synchronous': {
+                            'interfaces': d({}),
+                            'algorithms': d({}),
+                        },
+                    },
+                    'imports': d({}),
+                },
+                'api': {
+                    'root': {
+                        'algorithms': d({}),
+                    },
+                    'imports': d({}),
+                },
             },
             'imports': d({}),
         }
