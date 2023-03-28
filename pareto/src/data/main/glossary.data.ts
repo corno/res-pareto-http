@@ -7,12 +7,12 @@ import {
     externalTypeReference,
     ref,
     imp,
-    stream,
+    streamconsumer,
     data,
     inf,
     aInterfaceReference,
     aInterfaceMethod,
-    abuilder,
+    constructor,
     boolean,
 } from "lib-pareto-typescript-project/dist/submodules/glossary/shorthands"
 
@@ -25,16 +25,19 @@ export const $: g_glossary.T.Glossary<pd.SourceLocation> = {
     'imports': d({
         "common": imp({}),
     }),
-    'types': d({
-        "Configuration": type(group({
-            "hostName": member(string()),
-            "contextPath": member(ref(externalTypeReference("common", "Path"))),
-        })),
-        "HTTPError": type(taggedUnion({
-            "unknown": string(),
-        })),
-        "EncounteredErrors": type(boolean()),
-    }),
+    'root': {
+        'namespaces': d({}),
+        'types': d({
+            "Configuration": type(group({
+                "hostName": member(string()),
+                "contextPath": member(ref(externalTypeReference("common", "Path"))),
+            })),
+            "HTTPError": type(taggedUnion({
+                "unknown": string(),
+            })),
+            "EncounteredErrors": type(boolean()),
+        }),
+    },
     'asynchronous': {
         'interfaces': d({
 
