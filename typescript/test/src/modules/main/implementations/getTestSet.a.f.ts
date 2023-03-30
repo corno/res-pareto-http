@@ -1,4 +1,4 @@
-
+import * as pl from 'pareto-core-lib'
 import * as ps from 'pareto-core-state'
 import * as pv from 'pareto-core-dev'
 import * as pa from 'pareto-core-async'
@@ -7,39 +7,37 @@ import * as g_test from "lib-pareto-test"
 
 import * as g_pub from "../../../../../pub/dist"
 
-import { getTestSet } from "../api.generated"
+import { A } from "../api.generated"
 
-export const $$: getTestSet = () => {
+export const $$: A.getTestSet = () => {
     pv.logDebugMessage("START")
 
-    g_pub.$r.httpRequest(
+    g_pub.$r.httpServer(
         {
             'hostName': "www.nu.nl",
             'contextPath': "",
         },
-        null,
-        null,
-    )([], {
-        'errorConsumer': {
-            'data': () => {
-                pv.logDebugMessage("HTTPERROR")
+    ).consume([], {
+        'data': ($) => {
+            switch ($[0]) {
+                case 'data':
+                    pl.cc($[1], ($) => {
 
-            },
-            'end': () => {
-                pv.logDebugMessage("ERRORSTREAM ENDED")
+                        pv.logDebugMessage($)
+                    })
+                    break
+                case 'error':
+                    pl.cc($[1], ($) => {
+                        pv.logDebugMessage("ERROR")
+                    })
+                    break
+                default: pl.au($[0])
             }
-        },
-        'init': () => {
-            return {
-                'data': ($) => {
-                    pv.logDebugMessage($)
 
-                },
-                'end': () => {
-                    pv.logDebugMessage("ENDED")
-                },
-            }
         },
+        'end': () => {
+            pv.logDebugMessage("END")
+        }
     })
     const builder = ps.createUnsafeDictionaryBuilder<g_test.T.TestElement>()
     function createTest(name: string, actual: string, expected: string) {
