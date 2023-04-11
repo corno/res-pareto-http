@@ -21,13 +21,13 @@ export const $$: A.getTestSet = () => {
         'data': ($) => {
             switch ($[0]) {
                 case 'data':
-                    pl.cc($[1], ($) => {
+                    pl.ss($, ($) => {
 
                         pv.logDebugMessage($)
                     })
                     break
                 case 'error':
-                    pl.cc($[1], ($) => {
+                    pl.ss($, ($) => {
                         pv.logDebugMessage("ERROR")
                     })
                     break
