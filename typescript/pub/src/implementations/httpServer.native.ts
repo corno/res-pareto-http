@@ -15,7 +15,7 @@ export const $$: A.httpServer = ($x) => {
             const options = {
                 hostname: $x.hostName,
                 //port: 443,
-                path: n_path.join(...pi.flatten($)),
+                path: n_path.join(...pi.xflatten($)),
                 method: 'GET'
             }
 
