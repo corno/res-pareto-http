@@ -2,6 +2,7 @@ import * as pl from 'pareto-core-lib'
 import * as ps from 'pareto-core-state'
 import * as pv from 'pareto-core-dev'
 import * as pa from 'pareto-core-async'
+import * as pd from 'pareto-core-data'
 
 import * as g_test from "lib-pareto-test"
 
@@ -15,7 +16,7 @@ export const $$: A.getTestSet = () => {
     g_pub.$r.httpServer(
         {
             'hostName': "www.nu.nl",
-            'contextPath': "",
+            'contextPath': pd.a([""]),
         },
     ).consume([], {
         'data': ($) => {
