@@ -18,7 +18,7 @@ export const $$: A.getTestSet = () => {
             'hostName': "www.nu.nl",
             'contextPath': pd.a([""]),
         },
-    ).consume([], {
+    ).consume(pd.a([]), {
         'data': ($) => {
             switch ($[0]) {
                 case 'data':
